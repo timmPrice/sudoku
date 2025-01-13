@@ -1,7 +1,6 @@
 package main
 
-import "fmt"
-
 func main() {
-	fmt.Println("doing sudoku")
+	Board := makeBoard(9, 9)
+	printBoard(Board)
 }
