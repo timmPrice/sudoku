@@ -29,35 +29,38 @@ func makeBoard(rows int, columns int) *sudoku {
 func checkAllColumns(SudokuBoard *sudoku) bool {
 	// potential speedup by only checking finished lines or specific lines
 	for i := 0; i < SudokuBoard.Columns; i++ {
+		seen := make(map[int]bool)
 		for j := 0; j < SudokuBoard.Rows; j++ {
-			for k := j + 1; k < SudokuBoard.Rows; k++ {
-				if SudokuBoard.Board[j][i] == 0 {
-					continue
-				}
+			num := SudokuBoard.Board[j][i]
+			if num == 0 {
+				continue
+			}
 
-				if SudokuBoard.Board[j][i] == SudokuBoard.Board[k][i] {
-					fmt.Printf("Column %v is invalid\n", i)
-					return false
-				}
+			if seen[num] {
+				fmt.Printf("Column %v is invalid\n", i)
+				return false
 			}
 		}
 	}
 	return true
 }
 
+// use a hash set to reduce the amount of comparisons being done for every square
 func checkAllRows(SudokuBoard *sudoku) bool {
 	for i := 0; i < SudokuBoard.Rows; i++ {
+		seen := make(map[int]bool)
 		for j := 0; j < SudokuBoard.Columns; j++ {
-			for k := j + 1; k < SudokuBoard.Columns; k++ {
-				if SudokuBoard.Board[i][j] == 0 {
-					continue
-				}
-
-				if SudokuBoard.Board[i][j] == SudokuBoard.Board[i][k] {
-					fmt.Printf("Row %v is invalid\n", i)
-					return false
-				}
+			num := SudokuBoard.Board[i][j]
+			if num == 0 {
+				continue
 			}
+
+			if seen[num] {
+				fmt.Printf("Row %v is invalid\n", i)
+				return false
+			}
+
+			seen[num] = true
 		}
 	}
 	return true
