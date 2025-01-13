@@ -25,7 +25,7 @@ func makeBoard(rows int, columns int) *sudoku {
 	}
 }
 
-// returns false if the Row is invalid and true if it is valid
+// returns false if the Column is invalid and true if it is valid
 func checkAllColumns(SudokuBoard *sudoku) bool {
 	// potential speedup by only checking finished lines or specific lines
 	for i := 0; i < SudokuBoard.Columns; i++ {
@@ -45,7 +45,7 @@ func checkAllColumns(SudokuBoard *sudoku) bool {
 	return true
 }
 
-// use a hash set to reduce the amount of comparisons being done for every square
+// returns false if the Row is invalid and true if it is valid
 func checkAllRows(SudokuBoard *sudoku) bool {
 	for i := 0; i < SudokuBoard.Rows; i++ {
 		seen := make(map[int]bool)
@@ -64,6 +64,55 @@ func checkAllRows(SudokuBoard *sudoku) bool {
 		}
 	}
 	return true
+}
+
+// checks all Sub Grids and returns true if valid and false if invalid
+func checkAllGrids(SudokuBoard *sudoku) bool {
+	return checkGridsPriv(SudokuBoard, 0, 0)
+}
+
+func checkGridsPriv(SudokuBoard *sudoku, startRow int, startCol int) bool {
+	if startRow >= SudokuBoard.Rows {
+		return true
+	}
+
+	if checkSubGrid(SudokuBoard, startRow, startCol) != true {
+		return false
+	}
+
+	if startCol+3 < SudokuBoard.Columns {
+		return checkGridsPriv(SudokuBoard, startRow, startCol+3)
+	} else {
+		return checkGridsPriv(SudokuBoard, startRow+3, 0)
+	}
+}
+
+// Assumes 3x3 subsections
+// returns true if the block is valid and false if the block is invalid
+func checkSubGrid(SudokuBoard *sudoku, startRow int, startCol int) bool {
+	seen := make(map[int]bool)
+	for i := startRow; i < startRow+3; i++ {
+		for j := startCol; j < startCol+3; j++ {
+			num := SudokuBoard.Board[i][j]
+
+			if num == 0 {
+				continue
+			}
+
+			if seen[num] {
+				fmt.Printf("3x3 subgrid starting at (%v, %v) is invalid\n", startRow, startCol)
+				return false
+			}
+
+			seen[num] = true
+		}
+	}
+	return true
+}
+
+// runs all test to verify that the board is solved
+func checkWin() {
+	// todo
 }
 
 func printBoard(SudokuBoard *sudoku) {
@@ -103,4 +152,9 @@ func loadBoard(SudokuBoard *sudoku, filename string) {
 			arrayPosition++
 		}
 	}
+}
+
+// makes new board file and adds it to "runable list"
+func generateBoard() {
+	// todo
 }
