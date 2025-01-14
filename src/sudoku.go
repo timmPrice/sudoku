@@ -195,7 +195,7 @@ func bruteForce(SudokuBoard *sudoku, startCol int, startRow int) bool {
 		return bruteForce(SudokuBoard, startCol+1, startRow)
 	}
 
-	for i := 1; i <= 10; i++ {
+	for i := 1; i < 10; i++ {
 
 		SudokuBoard.Board[startRow][startCol] = i
 		if checkSafe(SudokuBoard) {
