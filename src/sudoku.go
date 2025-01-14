@@ -32,9 +32,10 @@ func checkAllColumns(SudokuBoard *sudoku) bool {
 		seen := make(map[int]bool)
 		for j := 0; j < SudokuBoard.Rows; j++ {
 			num := SudokuBoard.Board[j][i]
-			if num == 0 {
-				continue
-			}
+
+			// if num == 0 {
+			// 	   continue
+			// }
 
 			if seen[num] {
 				fmt.Printf("Column %v is invalid\n", i)
@@ -51,9 +52,10 @@ func checkAllRows(SudokuBoard *sudoku) bool {
 		seen := make(map[int]bool)
 		for j := 0; j < SudokuBoard.Columns; j++ {
 			num := SudokuBoard.Board[i][j]
-			if num == 0 {
-				continue
-			}
+
+			// if num == 0 {
+			//     continue
+			// }
 
 			if seen[num] {
 				fmt.Printf("Row %v is invalid\n", i)
@@ -95,9 +97,9 @@ func checkSubGrid(SudokuBoard *sudoku, startRow int, startCol int) bool {
 		for j := startCol; j < startCol+3; j++ {
 			num := SudokuBoard.Board[i][j]
 
-			if num == 0 {
-				continue
-			}
+			// if num == 0 {
+			// 	continue
+			// }
 
 			if seen[num] {
 				fmt.Printf("3x3 subgrid starting at (%v, %v) is invalid\n", startRow, startCol)
@@ -114,7 +116,7 @@ func checkSubGrid(SudokuBoard *sudoku, startRow int, startCol int) bool {
 func checkComplete(SudokuBoard *sudoku) bool {
 	for i := 0; i < SudokuBoard.Columns; i++ {
 		for j := 0; j < SudokuBoard.Rows; j++ {
-			if SudokuBoard.Board[i][j] == 0 {
+			if SudokuBoard.Board[i][j] == -1 {
 				return false
 			}
 		}
@@ -141,7 +143,7 @@ func checkWin(SudokuBoard *sudoku) bool {
 func printBoard(SudokuBoard *sudoku) {
 	for i := 0; i < SudokuBoard.Rows; i++ {
 		for j := 0; j < SudokuBoard.Columns; j++ {
-			if SudokuBoard.Board[i][j] == 0 {
+			if SudokuBoard.Board[i][j] == -1 {
 				fmt.Print("[.]")
 			} else {
 				fmt.Printf("[%v]", SudokuBoard.Board[i][j])
@@ -191,11 +193,11 @@ func bruteForce(SudokuBoard *sudoku, startCol int, startRow int) bool {
 		startCol = 0
 	}
 
-	if SudokuBoard.Board[startRow][startCol] != 0 {
+	if SudokuBoard.Board[startRow][startCol] != -1 {
 		return bruteForce(SudokuBoard, startCol+1, startRow)
 	}
 
-	for i := 1; i < 10; i++ {
+	for i := 0; i < 10; i++ {
 
 		SudokuBoard.Board[startRow][startCol] = i
 		if checkSafe(SudokuBoard) {
@@ -203,7 +205,7 @@ func bruteForce(SudokuBoard *sudoku, startCol int, startRow int) bool {
 				return true
 			}
 		}
-		SudokuBoard.Board[startRow][startCol] = 0
+		SudokuBoard.Board[startRow][startCol] = -1
 	}
 
 	return false
