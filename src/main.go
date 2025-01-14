@@ -4,12 +4,15 @@ import "fmt"
 
 func main() {
 	Board := makeBoard(9, 9)
-	loadBoard(Board, "valid-solution.txt")
+	loadBoard(Board, "single-solution.txt")
 	printBoard(Board)
 
-	fmt.Println("")
+	bruteForce(Board, 0, 0)
 
-	checkAllColumns(Board)
-	checkAllRows(Board)
-	checkAllGrids(Board)
+	fmt.Println("")
+	if checkWin(Board) {
+		printBoard(Board)
+		fmt.Println("solved!")
+	}
+
 }

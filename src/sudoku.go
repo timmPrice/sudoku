@@ -110,9 +110,32 @@ func checkSubGrid(SudokuBoard *sudoku, startRow int, startCol int) bool {
 	return true
 }
 
+// checks to see if the board has any empty spaces returns true if it is done and false if it contains null spaces
+func checkComplete(SudokuBoard *sudoku) bool {
+	for i := 0; i < SudokuBoard.Columns; i++ {
+		for j := 0; j < SudokuBoard.Rows; j++ {
+			if SudokuBoard.Board[i][j] == 0 {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+// checks if the current board is valid
+func checkSafe(SudokuBoard *sudoku) bool {
+	if checkAllColumns(SudokuBoard) && checkAllRows(SudokuBoard) && checkAllGrids(SudokuBoard) {
+		return true
+	}
+	return false
+}
+
 // runs all test to verify that the board is solved
-func checkWin() {
-	// todo
+func checkWin(SudokuBoard *sudoku) bool {
+	if checkAllColumns(SudokuBoard) && checkAllRows(SudokuBoard) && checkAllGrids(SudokuBoard) && checkComplete(SudokuBoard) {
+		return true
+	}
+	return false
 }
 
 func printBoard(SudokuBoard *sudoku) {
@@ -152,6 +175,38 @@ func loadBoard(SudokuBoard *sudoku, filename string) {
 			arrayPosition++
 		}
 	}
+}
+
+func bruteForce(SudokuBoard *sudoku, startCol int, startRow int) bool {
+	if checkWin(SudokuBoard) {
+		return true
+	}
+
+	if startRow == SudokuBoard.Rows-1 && startCol == SudokuBoard.Columns {
+		return true
+	}
+
+	if startCol == SudokuBoard.Columns {
+		startRow++
+		startCol = 0
+	}
+
+	if SudokuBoard.Board[startRow][startCol] != 0 {
+		return bruteForce(SudokuBoard, startCol+1, startRow)
+	}
+
+	for i := 1; i <= 10; i++ {
+
+		SudokuBoard.Board[startRow][startCol] = i
+		if checkSafe(SudokuBoard) {
+			if bruteForce(SudokuBoard, startCol+1, startRow) {
+				return true
+			}
+		}
+		SudokuBoard.Board[startRow][startCol] = 0
+	}
+
+	return false
 }
 
 // makes new board file and adds it to "runable list"
