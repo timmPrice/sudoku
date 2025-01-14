@@ -198,7 +198,13 @@ func bruteForce(SudokuBoard *sudoku, startCol int, startRow int) bool {
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	for i := 0; i < 10; i++ {
+=======
+	for i := 1; i <= 10; i++ {
+>>>>>>> parent of e61794c (now sudoku algorithm is working)
+||||||| e61794c (now sudoku algorithm is working)
+	for i := 1; i < 10; i++ {
 =======
 	for i := 1; i <= 10; i++ {
 >>>>>>> parent of e61794c (now sudoku algorithm is working)
