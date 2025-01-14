@@ -33,9 +33,9 @@ func checkAllColumns(SudokuBoard *sudoku) bool {
 		for j := 0; j < SudokuBoard.Rows; j++ {
 			num := SudokuBoard.Board[j][i]
 
-			// if num == 0 {
-			// 	   continue
-			// }
+			if num == -1 {
+				continue
+			}
 
 			if seen[num] {
 				fmt.Printf("Column %v is invalid\n", i)
@@ -53,9 +53,9 @@ func checkAllRows(SudokuBoard *sudoku) bool {
 		for j := 0; j < SudokuBoard.Columns; j++ {
 			num := SudokuBoard.Board[i][j]
 
-			// if num == 0 {
-			//     continue
-			// }
+			if num == -1 {
+				continue
+			}
 
 			if seen[num] {
 				fmt.Printf("Row %v is invalid\n", i)
@@ -97,9 +97,9 @@ func checkSubGrid(SudokuBoard *sudoku, startRow int, startCol int) bool {
 		for j := startCol; j < startCol+3; j++ {
 			num := SudokuBoard.Board[i][j]
 
-			// if num == 0 {
-			// 	continue
-			// }
+			if num == -1 {
+				continue
+			}
 
 			if seen[num] {
 				fmt.Printf("3x3 subgrid starting at (%v, %v) is invalid\n", startRow, startCol)
@@ -197,7 +197,11 @@ func bruteForce(SudokuBoard *sudoku, startCol int, startRow int) bool {
 		return bruteForce(SudokuBoard, startCol+1, startRow)
 	}
 
+<<<<<<< HEAD
 	for i := 0; i < 10; i++ {
+=======
+	for i := 1; i <= 10; i++ {
+>>>>>>> parent of e61794c (now sudoku algorithm is working)
 
 		SudokuBoard.Board[startRow][startCol] = i
 		if checkSafe(SudokuBoard) {
