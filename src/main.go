@@ -5,7 +5,7 @@ import "fmt"
 func main() {
 
 	Board := makeBoard(9, 9)
-	loadBoard(Board, "single-solution.txt")
+	loadBoard(Board, "jane-street.txt")
 	printBoard(Board)
 
 	bruteForce(Board, 0, 0)
@@ -16,6 +16,8 @@ func main() {
 		printBoard(Board)
 		fmt.Println("solved!")
 	}
+
+	fmt.Println(gcd(Board))
 }
 
 // func main() {

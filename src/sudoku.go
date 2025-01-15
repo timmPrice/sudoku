@@ -143,6 +143,8 @@ func printBoard(SudokuBoard *sudoku) {
 		for j := 0; j < SudokuBoard.Columns; j++ {
 			if SudokuBoard.Board[i][j] == 0 {
 				fmt.Print("[.]")
+			} else if SudokuBoard.Board[i][j] == 10 {
+				fmt.Print("[0]")
 			} else {
 				fmt.Printf("[%v]", SudokuBoard.Board[i][j])
 			}
@@ -195,7 +197,7 @@ func bruteForce(SudokuBoard *sudoku, startCol int, startRow int) bool {
 		return bruteForce(SudokuBoard, startCol+1, startRow)
 	}
 
-	for i := 1; i < 10; i++ {
+	for i := 1; i <= 10; i++ {
 
 		SudokuBoard.Board[startRow][startCol] = i
 		if checkSafe(SudokuBoard) {
